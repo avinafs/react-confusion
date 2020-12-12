@@ -4,22 +4,17 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody,
 
     
 class Dishdetail extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            selectedDish:null
-        };
-}
-
-    renderDish(selectedDish){
-        if (selectedDish!=null){
+   
+    renderdish(dish){
+        if (this.props.dish!=null){
             return(
-            <div key={selectedDish.id} className="col-12 col-md-5 m-1">
+            <div key={dish.id} className="col-12 col-md-5 m-1">
             <Card>
-                <CardImg width="100%" src={selectedDish.image} alt={selectedDish.name} />
-              <CardImgOverlay>
-                <CardTitle>{selectedDish.name}</CardTitle>
-              </CardImgOverlay>
+                <CardImg width="100%" src={dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                </CardBody>                    
             </Card>
           </div>
             )
@@ -35,16 +30,18 @@ class Dishdetail extends Component{
 
             const listItems =comments.map((c)=>{
                 return(
-                <div key={c.id} className="row">
+                <div key={c.id} >
                     <ul className="list-unstyled">
-                        <li>{c.comment}</li>   
-                        <li>-- {c.author}</li>  
-                        <li>{c.date}</li>
+                        <li>
+                        <p>{c.comment}</p>  
+                        <p>-- {c.author}, {new Intl.DateTimeFormat('en', {year: 'numeric', month:'short', day: '2-digit'}).format(new Date(Date.parse(c.date)))}</p>
+                        </li>
                     </ul>
                 </div>
                 );
-                })
-
+                });
+            
+            
             return(
                 <div className="col-12 col-md-5 m-1">
                     <Card>
@@ -55,24 +52,33 @@ class Dishdetail extends Component{
                     </Card>
                 </div>
             );
-        
-        } else {
-            return (
+        }
+        else {
+             return (
                 <div> </div>
             );
+             
         }
     }
 
 
+
     render(){
-        return(
-            <div className="container">
-                <div className="row">
-                    {this.renderDish(this.props.selectedDish)}
-                    {this.renderComments(this.props.comments)}
+        const dish =this.props.dish;
+        if(dish!=null){        
+            return(
+                <div className="container">
+                    <div className="row">
+                        {this.renderdish(dish)}
+                        {this.renderComments(dish.comments)}
+                    </div>
                 </div>
-            </div>
-        );
+            )
+        } else{
+            return(
+                <div></div>
+            )
+        }
     }
 }
 
