@@ -98,23 +98,7 @@ export class CommentForm extends Component {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function Renderdish({dish}){
+  function Renderdish({dish}){
         if (dish!=null){
             return(
             <div key={dish.id} className="col-12 col-md-5 m-1">
