@@ -5,6 +5,7 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle,Breadcrumb,BreadcrumbItem ,Button, Modal, ModalBody, ModalHeader, Label, Col, Row} from 'reactstrap';
 import {Link} from 'react-router-dom' ; 
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 
 const required = (val) => val && val.length;
@@ -157,9 +158,28 @@ export class CommentForm extends Component {
 
 
     const Dishdetail=(props)=>{
-        
         const dish = props.dish;
-        if(dish!=null){        
+        if (props.isLoading) {
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if (props.errMess) {
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
+        
+    
+       else if (dish!=null){        
             return(
                 <div className="container">
                      <div className="row">
