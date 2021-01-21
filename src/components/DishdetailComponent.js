@@ -6,6 +6,7 @@ import { Card, CardImg, CardText, CardBody,
 import {Link} from 'react-router-dom' ; 
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 
 const required = (val) => val && val.length;
@@ -17,25 +18,24 @@ export class CommentForm extends Component {
         super(props);
 
         this.toggleModal = this.toggleModal.bind(this);
-        this.state = {
-            isModalOpen: false
-        };
-    }
+            this.handleSubmit = this.handleSubmit.bind(this);
 
-    toggleModal() {
-        this.setState({
-            isModalOpen: !this.state.isModalOpen
-        });
-    }
+            this.state = {
+              isNavOpen: false,
+              isModalOpen: false
+            };
+        }
 
-    
+        toggleModal() {
+            this.setState({
+              isModalOpen: !this.state.isModalOpen
+            });
+        }
 
-
-    handleSubmit(values){
-        this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
-
-    }
+        handleSubmit(values) {
+            this.toggleModal();
+            this.props.postComment(this.props.dishId, values.rating, values.comment);
+        }
 
 
     render() {
@@ -99,18 +99,19 @@ export class CommentForm extends Component {
 
 
   function Renderdish({dish}){
+     // console.log(dish);
         if (dish!=null){
             return(
             <div key={dish.id} className="col-12 col-md-5 m-1">
             <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name} />
+                <CardImg  src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>
                 </CardBody>                    
             </Card>
           </div>
-            )
+            );
         }
         else{
             <div></div>
@@ -179,7 +180,7 @@ export class CommentForm extends Component {
         }
         
     
-       else if (dish!=null){        
+       else if (props.dish!=null){        
             return(
                 <div className="container">
                      <div className="row">
@@ -193,7 +194,9 @@ export class CommentForm extends Component {
                             </div>
                         </div>
                     <div className="row">
-                        <Renderdish dish={props.dish}/>
+                        <Renderdish dish={props.dish}
+                         isLoading={props.dishesLoading} 
+                         errMess={props.dishesErrMess}  />
                     
                         <RenderComments comments={props.comments} addComment ={props.addComment}
                          postComment={props.postComment}
@@ -201,7 +204,7 @@ export class CommentForm extends Component {
                     </div>
                 </div>
             );
-        } else{
+    } else{
             return(
                 <div></div>
             )
