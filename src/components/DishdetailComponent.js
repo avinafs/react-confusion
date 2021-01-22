@@ -34,7 +34,7 @@ export class CommentForm extends Component {
 
         handleSubmit(values) {
             this.toggleModal();
-            this.props.postComment(this.props.dishId, values.rating, values.comment);
+            this.props.postComment(this.props.dishId, values.rating,values.author, values.comment);
         }
 
 
@@ -118,7 +118,7 @@ export class CommentForm extends Component {
         }
      }
 
-    function RenderComments({comments, addComment, postComment, dishId}){
+    function RenderComments({comments, postComment, dishId}){
         // console.log(comments);
         if (comments!=null){
 
@@ -132,7 +132,7 @@ export class CommentForm extends Component {
                         </li>
                     </ul>
                 </div>
-                );
+                )
                 });
             
             
@@ -144,7 +144,7 @@ export class CommentForm extends Component {
                             {listItems}
                         </CardBody>
                     </Card>
-                    <CommentForm dishId={dishId}addComment={addComment} postComment={postComment}/>
+                    <CommentForm dishId={dishId} postComment={postComment}/>
                 </div>
             );
         }
@@ -155,10 +155,7 @@ export class CommentForm extends Component {
              
         }
     }
-
-
-
-    const Dishdetail=(props)=>{
+     const Dishdetail=(props)=>{
         const dish = props.dish;
         if (props.isLoading) {
             return(
@@ -198,8 +195,7 @@ export class CommentForm extends Component {
                          isLoading={props.dishesLoading} 
                          errMess={props.dishesErrMess}  />
                     
-                        <RenderComments comments={props.comments} addComment ={props.addComment}
-                         postComment={props.postComment}
+                        <RenderComments comments={props.comments} postComment={props.postComment}
                          dishId={props.dish.id} />
                     </div>
                 </div>
